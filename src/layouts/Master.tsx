@@ -1,6 +1,7 @@
 'use client';
 import React, { useState, ReactNode } from 'react';
 import { Main, Navbar, Sidebar } from '@/components/atoms';
+import { deleteCookie } from 'cookies-next';
 
 // Definisikan tipe untuk properti komponen
 interface MasterProps {
@@ -9,14 +10,13 @@ interface MasterProps {
 }
 
 export default function Master({ isBlankLayout, children }: MasterProps) {
-  const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
-
+  const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(true);
   const handleSidebarOpen = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
   return isBlankLayout ? (
-    <>{children}</>
+    children
   ) : (
     <>
       <Navbar

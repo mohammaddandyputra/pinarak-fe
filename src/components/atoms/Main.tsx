@@ -8,11 +8,11 @@ interface MainProps {
 const Main = ({ isSidebarOpen, children }: MainProps) => {
   return (
     <div
-      className={`pt-12 sm:pl-[12.6rem] ${
-        isSidebarOpen ? 'pl-[12.6rem]' : ''
-      } transition-transform overflow-auto bg-white h-screen text-black`}
+      className={`pt-14 transition-transform h-screen overflow-auto
+      ${isSidebarOpen ? 'pl-[12.6rem]' : 'pl-0 sm:pl-[4rem]'}
+      sm:${isSidebarOpen ? 'pl-[12.6rem]' : 'pl-[4rem]'}`}
     >
-      {children}
+      <div className='p-4'>{children}</div>
     </div>
   );
 };

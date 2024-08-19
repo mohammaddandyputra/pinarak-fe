@@ -1,5 +1,5 @@
-import { ImageDhikra } from '@/utils/imageUrl';
-import Image from 'next/image';
+import { AlignLeft, CircleChevronRight } from 'lucide-react';
+import Avatar from './Avatar';
 
 interface NavbarProps {
   isSidebarOpen: boolean;
@@ -8,14 +8,27 @@ interface NavbarProps {
 
 const Navbar = ({ isSidebarOpen, handleSidebarOpen }: NavbarProps) => {
   return (
-    <nav className='fixed top-0 z-20 w-full h-14 bg-white text-black border-b border-gray-200 flex items-center justify-between px-4'>
-      <div className='flex gap-4'>
+    <nav
+      className={`fixed top-0 z-10 w-full bg-white text-black border-b border-gray-200
+    ${isSidebarOpen ? 'pl-[12.6rem]' : 'pl-0 sm:pl-[4rem]'}`}
+    >
+      <div className='px-4 h-16 flex items-center justify-between'>
         <button className='sm:hidden' onClick={handleSidebarOpen}>
-          {isSidebarOpen ? 'Hide' : 'Show'}
+          {isSidebarOpen ? (
+            <AlignLeft size={25} />
+          ) : (
+            <CircleChevronRight size={25} />
+          )}
         </button>
-        <Image alt='' src={ImageDhikra} height={40} width={40} />
+        <button className='hidden sm:block' onClick={handleSidebarOpen}>
+          {isSidebarOpen ? (
+            <AlignLeft size={25} />
+          ) : (
+            <CircleChevronRight size={25} />
+          )}
+        </button>
+        <Avatar />
       </div>
-      nav
     </nav>
   );
 };
