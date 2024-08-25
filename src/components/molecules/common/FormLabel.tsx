@@ -23,18 +23,16 @@ const FormLabel = ({
 }: FormLabelProps) => {
   return (
     <>
-      <div
-        className={`flex ${labelPositionTop ? `items-start` : `items-center`}`}
-      >
+      <div className={`${labelPositionTop ? `` : `flex`}`}>
         <div
           className={`${widthLabel ? widthLabel : ''} ${
             classNameLabel ? classNameLabel : ''
-          } text-sm text-brisma font-semibold`}
+          } ${labelPositionTop ? `ml-1` : ``} text-sm text-brisma font-semibold`}
         >
           {label}
         </div>
         <div
-          className={`${widthForm} ${classNameForm ? classNameForm : ''} ml-2`}
+          className={`${widthForm} ${classNameForm ? classNameForm : ''} ${labelPositionTop ? 'mt-1.5' : 'ml-2'}`}
         >
           {form}
         </div>

@@ -3,6 +3,7 @@ import getFetcherData from './getFetcherData';
 import fetchApi from './fetchApi';
 import errorToastify from './errorToastify';
 import successToastify from './successToastify';
+import setErrorValidation from './setErrorValidation';
 
 export {
   getTokenConfig,
@@ -10,4 +11,5 @@ export {
   fetchApi,
   errorToastify,
   successToastify,
+  setErrorValidation,
 };

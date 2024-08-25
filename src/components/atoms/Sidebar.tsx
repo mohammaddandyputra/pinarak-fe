@@ -4,9 +4,12 @@ import {
   UserCog,
   Users,
   UserCheck,
-  Package,
   PackageOpen,
   PackagePlus,
+  PackageSearch,
+  Truck,
+  CircleDollarSign,
+  ListOrdered,
 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -23,8 +26,32 @@ const Sidebar = ({ isSidebarOpen }: SidebarProps) => {
       path: '/',
     },
     {
-      page: 'Order',
-      icon: <Package size={20} />,
+      page: 'Funds',
+      icon: <CircleDollarSign size={20} />,
+      isParent: true,
+      path: '/',
+    },
+    {
+      page: 'Shipment',
+      icon: <Truck size={20} />,
+      isParent: true,
+      path: '#',
+      children: [
+        {
+          page: 'Order',
+          icon: <ListOrdered size={20} />,
+          path: '/order',
+        },
+        {
+          page: 'Tracking',
+          icon: <PackageSearch size={20} />,
+          path: '/tracking',
+        },
+      ],
+    },
+    {
+      page: 'Information',
+      icon: <Truck size={20} />,
       isParent: true,
       path: '#',
       children: [
@@ -33,7 +60,11 @@ const Sidebar = ({ isSidebarOpen }: SidebarProps) => {
           icon: <PackageOpen size={20} />,
           path: '/recipient',
         },
-        { page: 'Sender', icon: <PackagePlus size={20} />, path: '/sender' },
+        {
+          page: 'Sender',
+          icon: <PackageSearch size={20} />,
+          path: '/tracking',
+        },
       ],
     },
     {
@@ -68,9 +99,9 @@ const Sidebar = ({ isSidebarOpen }: SidebarProps) => {
   return (
     <aside
       className={`fixed top-0 left-0 z-20 h-screen overflow-hidden pt-14 bg-white text-black border-r border-gray-200 transition-all duration-300
-        ${isSidebarOpen ? 'w-[12.6rem]' : 'w-[4rem]'}
+        ${isSidebarOpen ? 'w-[13.5rem]' : 'w-[4rem]'}
         ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}
-        sm:translate-x-0 sm:w-${isSidebarOpen ? '[12.6rem]' : '[4rem]'}`}
+        sm:translate-x-0 sm:w-${isSidebarOpen ? '[13.5rem]' : '[4rem]'}`}
     >
       <div className='flex flex-col gap-1'>
         {isSidebarOpen

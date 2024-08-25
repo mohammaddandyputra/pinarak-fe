@@ -12,7 +12,7 @@ interface BreadcrumbsFieldProps {
 
 const Breadcrumbs: React.FC<BreadcrumbsFieldProps> = ({ data }) => {
   return data.length ? (
-    <div className='justify-start mb-6 flex text-atlasian-gray-dark'>
+    <div className='justify-start mb-4 flex text-atlasian-gray-dark'>
       {data?.map((v, i) => {
         return (
           <div className='text-sm mx-0 flex items-center' key={i}>

@@ -2,7 +2,12 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import { ToastContainer } from 'react-toastify';
-import { NextUIProvider, TanstackProvider, ToastProvider } from '../providers';
+import {
+  NextUIProvider,
+  ReduxProvider,
+  TanstackProvider,
+  ToastProvider,
+} from '../providers';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -20,10 +25,12 @@ export default function RootLayout({
     <html lang='en'>
       <body className={inter.className}>
         <NextUIProvider>
-          <TanstackProvider>
-            <ToastProvider>{children}</ToastProvider>
-            <ToastContainer />
-          </TanstackProvider>
+          <ReduxProvider>
+            <TanstackProvider>
+              <ToastProvider>{children}</ToastProvider>
+              <ToastContainer />
+            </TanstackProvider>
+          </ReduxProvider>
         </NextUIProvider>
       </body>
     </html>

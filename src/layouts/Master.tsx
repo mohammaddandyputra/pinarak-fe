@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, ReactNode } from 'react';
+import React, { useState, ReactNode, useEffect } from 'react';
 import { Main, Navbar, Sidebar } from '@/components/atoms';
 import { deleteCookie } from 'cookies-next';
 
@@ -11,6 +11,25 @@ interface MasterProps {
 
 export default function Master({ isBlankLayout, children }: MasterProps) {
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(true);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 768) {
+        setIsSidebarOpen(false);
+      } else {
+        setIsSidebarOpen(true);
+      }
+    };
+
+    handleResize();
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
   const handleSidebarOpen = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };

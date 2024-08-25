@@ -13,11 +13,6 @@ const fetchApi = async (
     const { headers } = getTokenConfig();
     const options: RequestInit = {
       method,
-      headers: {
-        ...headers,
-        'Content-Type': 'application/json',
-        'Strict-Transport-Security': 'max-age=86400; preload',
-      },
       body: JSON.stringify(body),
     };
     const response = await fetch(url, options);

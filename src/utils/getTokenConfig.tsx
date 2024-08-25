@@ -7,7 +7,6 @@ const getTokenConfig = (): RequestInit => {
     headers: {
       Authorization: token ? `Bearer ${token}` : '',
     },
-    credentials: 'include',
   };
 
   return config;
