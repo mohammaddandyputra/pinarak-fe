@@ -8,6 +8,7 @@ import {
   TanstackProvider,
   ToastProvider,
 } from '../providers';
+import { ClerkProvider } from '@clerk/nextjs';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -25,12 +26,14 @@ export default function RootLayout({
     <html lang='en'>
       <body className={inter.className}>
         <NextUIProvider>
-          <ReduxProvider>
-            <TanstackProvider>
-              <ToastProvider>{children}</ToastProvider>
-              <ToastContainer />
-            </TanstackProvider>
-          </ReduxProvider>
+          <ClerkProvider>
+            <ReduxProvider>
+              <TanstackProvider>
+                <ToastProvider>{children}</ToastProvider>
+                <ToastContainer />
+              </TanstackProvider>
+            </ReduxProvider>
+          </ClerkProvider>
         </NextUIProvider>
       </body>
     </html>
