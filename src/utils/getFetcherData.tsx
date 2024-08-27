@@ -1,24 +1,35 @@
-import getTokenConfig from './getTokenConfig';
+import { useAuth } from '@clerk/nextjs';
+import { useQuery } from '@tanstack/react-query';
 
-const getFetcherData = async (url: string): Promise<any> => {
-  const { headers, credentials } = getTokenConfig();
+const useFetcherData = (url: string) => {
+  const { getToken } = useAuth();
 
-  const response = await fetch(url, {
-    method: 'GET',
-    headers: {
-      ...headers,
-      'Strict-Transport-Security': 'max-age=86400; preload',
-    },
-    credentials,
-  }).then((res) => {
-    console.log('res => ', res);
-    if (!res.ok) {
-      throw new Error(res?.statusText || 'Network response was not ok');
+  const fetchData = async () => {
+    const token = await getToken();
+    console.log('Token:', token); // Logging token
+
+    if (!token) {
+      throw new Error('Token is null or undefined');
     }
+
+    const res = await fetch(url, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    if (!res.ok) {
+      console.error('Network response error:', res.statusText);
+      throw new Error('Network response error');
+    }
+
     return res.json();
+  };
+
+  const { data, error, isLoading } = useQuery({
+    queryKey: ['fetchData', url],
+    queryFn: fetchData,
   });
 
-  return response;
+  return { data, error, isLoading };
 };
 
-export default getFetcherData;
+export default useFetcherData;
