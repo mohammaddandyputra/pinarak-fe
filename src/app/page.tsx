@@ -3,20 +3,12 @@
 import { Master } from '@/layouts';
 import { Breadcrumbs } from '@/components/atoms';
 import { ToastContainer, toast } from 'react-toastify';
-import { useBannerList } from '@/data/bannner';
-import { useEffect } from 'react';
 
 const Home = () => {
   const breadcrumbs = [
     { page: 'Home', path: '/' },
     { page: 'Dashboard', path: '/' },
   ];
-
-  const { bannerListData } = useBannerList();
-
-  useEffect(() => {
-    console.log('bannerListData => ', bannerListData);
-  }, [bannerListData]);
 
   return (
     <Master isBlankLayout={false}>
