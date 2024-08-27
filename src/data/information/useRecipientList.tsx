@@ -12,7 +12,7 @@ const useRecipientList = (filter: any) => {
     queryKey: ['recipientList', filter],
     queryFn: () =>
       getFetcherData(
-        `${process.env.NEXT_PUBLIC_API_URL}/penerima?page=${filter?.page || 1}&limit=${filter?.limit || 1}&nama=${filter?.nama || ''}&no_telepon=${filter?.no_telepon || ''}&alamat=${filter?.alamat || ''}`
+        `${process.env.NEXT_PUBLIC_API_URL}/penerima?page=${filter?.page || 1}&limit=${filter?.limit || 8}&nama=${filter?.nama || ''}&no_telepon=${filter?.no_telepon || ''}&alamat=${filter?.alamat || ''}`
       ),
   });
 

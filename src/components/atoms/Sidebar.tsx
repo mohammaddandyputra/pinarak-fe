@@ -63,7 +63,7 @@ const Sidebar = ({ isSidebarOpen }: SidebarProps) => {
         {
           page: 'Sender',
           icon: <PackageSearch size={20} />,
-          path: '/tracking',
+          path: '/sender',
         },
       ],
     },

@@ -17,10 +17,10 @@ import {
   resetObjFilter,
   resetObjPayload,
   resetValidationErrors,
-} from '@/slices/information/recipientInformationSlice';
+} from '@/slices/information/senderInformationSlice';
 import { RootState } from '@/stores/store';
 import { useEffect, useState } from 'react';
-import { useRecipientDetail, useRecipientList } from '@/data/information';
+import { useSenderList, useSenderDetail } from '@/data/information';
 import recipientSchema from '@/schemas/information/recipientSchema';
 import { fetchApi, setErrorValidation } from '@/utils';
 import _ from 'lodash';
@@ -40,54 +40,53 @@ const Home = () => {
   const breadcrumbs = [
     { page: 'Home', path: '/' },
     { page: 'Information', path: '/' },
-    { page: 'Recipent', path: '/recipient' },
+    { page: 'Sender', path: '/sender' },
   ];
 
   const [filterData, setFilterData] = useState({});
   const [isFilterActive, setIsFilterActive] = useState(false);
   const [totalPage, setTotalPage] = useState(1);
 
-  const [showModalRecipient, setShowModalRecipient] = useState<boolean>(false);
+  const [showModalSender, setShowModalSender] = useState<boolean>(false);
   const [showModalDelete, setShowModalDelete] = useState<boolean>(false);
-  const [showModalFilterRecipient, setShowModalFilterRecipient] =
+  const [showModalFilterSender, setShowModalFilterSender] =
     useState<boolean>(false);
 
   const [selectedId, setSelectedId] = useState(0);
   const [isEdit, setIsEdit] = useState<boolean>(false);
 
   const data = useSelector(
-    (state: RootState) => state.recipientInformation.objData
+    (state: RootState) => state.senderInformation.objData
   );
   const filter = useSelector(
-    (state: RootState) => state.recipientInformation.objFilter
+    (state: RootState) => state.senderInformation.objFilter
   );
   const payload = useSelector(
-    (state: RootState) => state.recipientInformation.objPayload
+    (state: RootState) => state.senderInformation.objPayload
   );
   const validation = useSelector(
-    (state: RootState) => state.recipientInformation.validationErrors
+    (state: RootState) => state.senderInformation.validationErrors
   );
 
-  const { recipientListData, recipientListRefetch } =
-    useRecipientList(filterData);
-  const { recipientDetailData } = useRecipientDetail({
+  const { senderListData, senderListRefetch } = useSenderList(filterData);
+  const { senderDetailData } = useSenderDetail({
     id: selectedId?.toString(),
   });
 
   useEffect(() => {
-    if (recipientListData?.data?.data?.length) {
-      const response = recipientListData?.data;
+    if (senderListData?.data?.data?.length) {
+      const response = senderListData?.data;
       dispatch(setObjData(response?.data));
       setTotalPage(response?.pagination?.total_pages);
     } else {
       dispatch(resetObjData());
       setTotalPage(1);
     }
-  }, [recipientListData]);
+  }, [senderListData]);
 
   useEffect(() => {
-    if (recipientDetailData?.data) {
-      const response = recipientDetailData?.data;
+    if (senderDetailData?.data) {
+      const response = senderDetailData?.data;
       dispatch(
         setObjPayload({
           ..._.omit(response, ['Kecamatan']),
@@ -97,7 +96,7 @@ const Home = () => {
     } else {
       dispatch(resetObjPayload());
     }
-  }, [recipientDetailData, showModalRecipient]);
+  }, [senderDetailData, showModalSender]);
 
   useEffect(() => {
     const filterKey = Object.keys(filterData)?.filter((key) => key !== 'page');
@@ -121,7 +120,7 @@ const Home = () => {
   const handleOpenModalEdit = (id: number) => {
     setSelectedId(id);
     setIsEdit(true);
-    setShowModalRecipient(true);
+    setShowModalSender(true);
   };
 
   const handleOpenModalDelete = (id: number) => {
@@ -130,17 +129,17 @@ const Home = () => {
   };
 
   const handleOpenModalAdd = () => {
-    setShowModalRecipient(true);
+    setShowModalSender(true);
   };
 
   const handleOpenModalFilter = () => {
-    setShowModalFilterRecipient(true);
+    setShowModalFilterSender(true);
   };
   // [ END ] handler for card content
 
   // [ START ] handler for modal filter
   const handleCloseModalFilter = () => {
-    setShowModalFilterRecipient(false);
+    setShowModalFilterSender(false);
   };
 
   const handleChangeFilter = (property: string, value: any) => {
@@ -148,7 +147,7 @@ const Home = () => {
   };
 
   const handleResetFilter = () => {
-    setShowModalFilterRecipient(false);
+    setShowModalFilterSender(false);
     dispatch(resetObjFilter());
     setFilterData({});
   };
@@ -156,8 +155,8 @@ const Home = () => {
   const handleSubmitFilter = async () => {
     dispatch(setObjFilter({ ...filter, page: 1 }));
     setFilterData({ ...filter, page: 1 });
-    recipientListRefetch();
-    setShowModalFilterRecipient(false);
+    senderListRefetch();
+    setShowModalFilterSender(false);
   };
   // [ END ] handler for modal filter
 
@@ -169,18 +168,18 @@ const Home = () => {
   const handleSubmitModalDelete = async () => {
     await fetchApi(
       'DELETE',
-      `${process.env.NEXT_PUBLIC_API_URL}/penerima/${selectedId}`,
+      `${process.env.NEXT_PUBLIC_API_URL}/pengirim/${selectedId}`,
       {}
     );
 
-    recipientListRefetch();
+    senderListRefetch();
     setShowModalDelete(false);
   };
   // [ END ] handler modal delete
 
   // [ START ] handler for modal add
   const handleCloseModalRecipient = () => {
-    setShowModalRecipient(false);
+    setShowModalSender(false);
     setIsEdit(false);
     dispatch(resetObjPayload());
     dispatch(resetValidationErrors());
@@ -207,17 +206,17 @@ const Home = () => {
     if (validate) {
       await fetchApi(
         isEdit ? 'PUT' : 'POST',
-        `${process.env.NEXT_PUBLIC_API_URL}/penerima${isEdit ? `/${selectedId}` : ''}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/pengirim${isEdit ? `/${selectedId}` : ''}`,
         {
           ..._.omit(mappingPayload, ['kecamatan']),
           kecamatan_id: Number(mappingPayload?.kecamatan_id),
         }
       );
 
-      recipientListRefetch();
+      senderListRefetch();
       dispatch(resetObjPayload());
       dispatch(resetValidationErrors());
-      setShowModalRecipient(false);
+      setShowModalSender(false);
       setIsEdit(false);
     }
   };
@@ -283,7 +282,7 @@ const Home = () => {
           </div>
         </CardFooter>
         <ModalRecipient
-          isOpen={showModalRecipient}
+          isOpen={showModalSender}
           payload={payload}
           validation={validation}
           handleCloseModal={handleCloseModalRecipient}
@@ -292,7 +291,7 @@ const Home = () => {
           handleSubmit={handleSave}
         />
         <ModalFilterRecipient
-          isOpen={showModalFilterRecipient}
+          isOpen={showModalFilterSender}
           payload={filter}
           handleCloseModal={handleCloseModalFilter}
           handleChangePayload={handleChangeFilter}
