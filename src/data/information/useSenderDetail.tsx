@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import getFetcherData from '@/utils/getFetcherData';
+import { useFetcherData } from '@/utils';
 import { ApiResponse } from '@/interfaces/common';
 
 interface IParamsProps {
@@ -7,6 +7,8 @@ interface IParamsProps {
 }
 
 const useSenderDetail = ({ id }: IParamsProps) => {
+  const fetcher = useFetcherData();
+
   const {
     data: senderDetailData,
     error: senderDetailError,
@@ -14,8 +16,7 @@ const useSenderDetail = ({ id }: IParamsProps) => {
     refetch: senderDetailRefetch,
   } = useQuery<ApiResponse, Error>({
     queryKey: ['senderDetail', id],
-    queryFn: () =>
-      getFetcherData(`${process.env.NEXT_PUBLIC_API_URL}/pengirim/${id}`),
+    queryFn: () => fetcher(`${process.env.NEXT_PUBLIC_API_URL}/pengirim/${id}`),
   });
 
   return {

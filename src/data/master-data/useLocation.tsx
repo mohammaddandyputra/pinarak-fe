@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import getFetcherData from '@/utils/getFetcherData';
+import { useFetcherData } from '@/utils';
 import { ApiResponse } from '@/interfaces/common';
 
 interface UseLocationParams {
@@ -7,24 +7,22 @@ interface UseLocationParams {
 }
 
 const useLocation = ({ keyword }: UseLocationParams) => {
-  const {
-    data: locationData,
-    error: locationError,
-    isLoading: locationIsLoading,
-    refetch: locationMutate,
-  } = useQuery<ApiResponse, Error>({
+  const fetcher = useFetcherData();
+
+  const { data, error, isLoading, refetch } = useQuery<ApiResponse, Error>({
     queryKey: ['location', keyword],
     queryFn: () =>
-      getFetcherData(
-        `${process.env.NEXT_PUBLIC_API_URL}/kecamatan?filter=${keyword}`
-      ),
+      fetcher(`${process.env.NEXT_PUBLIC_API_URL}/kecamatan?filter=${keyword}`),
+    enabled: !!keyword,
   });
 
+  console.log('Location Data:', data);
+
   return {
-    locationData,
-    locationIsLoading,
-    locationError,
-    locationMutate,
+    locationData: data,
+    locationIsLoading: isLoading,
+    locationError: error,
+    locationMutate: refetch,
   };
 };
 

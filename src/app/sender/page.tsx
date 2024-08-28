@@ -228,7 +228,7 @@ const Home = () => {
       <Card>
         <CardHeader>
           <div className='w-full flex items-center justify-between'>
-            <PageTitle text='Recipient' />
+            <PageTitle text='Sender' />
             <div className='flex gap-2'>
               <Button
                 isIconOnly
@@ -253,11 +253,11 @@ const Home = () => {
         <CardBody>
           <div className='p-2 grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4'>
             {data?.length
-              ? data?.map((dataRecipient, indexRecipient) => {
+              ? data?.map((dataSender, indexSender) => {
                   return (
                     <CardRecipient
-                      key={indexRecipient}
-                      data={dataRecipient}
+                      key={indexSender}
+                      data={dataSender}
                       isOpenEdit={showModalDelete}
                       handleOpenEdit={handleOpenModalEdit}
                       handleOpenDelete={handleOpenModalDelete}
