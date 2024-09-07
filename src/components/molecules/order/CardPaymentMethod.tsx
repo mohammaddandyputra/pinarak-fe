@@ -26,10 +26,27 @@ const CardPaymentMethod = ({
       <Divider />
       <CardBody>
         <div className='p-2'>
-          <RadioGroup>
+          <RadioGroup
+            value={data?.metode_pembayaran}
+            defaultValue={data?.metode_pembayaran}
+          >
             <div className='flex gap-4'>
-              <Radio value='buenos-aires'>Non-COD</Radio>
-              <Radio value='sydney'>COD (Cash On Delivery)</Radio>
+              <Radio
+                value='non-cod'
+                onChange={(e) =>
+                  handleChangePayload?.('metode_pembayaran', e.target.value)
+                }
+              >
+                Non-COD
+              </Radio>
+              <Radio
+                value='cod'
+                onChange={(e) =>
+                  handleChangePayload?.('metode_pembayaran', e.target.value)
+                }
+              >
+                COD (Cash On Delivery)
+              </Radio>
             </div>
           </RadioGroup>
         </div>

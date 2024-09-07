@@ -18,8 +18,16 @@ import {
   resetValidationErrors,
 } from '@/slices/shipment/orderShipmentFormSlice';
 import { useEffect, useState } from 'react';
+import { Button } from '@nextui-org/react';
+import { ShoppingCart } from 'lucide-react';
+import { fetchApi, setErrorValidation } from '@/utils';
+import orderSchema from '@/schemas/shipment/orderSchema';
+import _ from 'lodash';
+import { useSearchParams } from 'next/navigation';
 
 const Home = () => {
+  const p = useSearchParams().get('p');
+
   const dispatch = useDispatch();
   const breadcrumbs = [
     { page: 'Home', path: '/' },
@@ -28,7 +36,7 @@ const Home = () => {
     { page: 'Form', path: '/order/form' },
   ];
 
-  const [showModalDelete, setShowModalDelete] = useState<boolean>(false);
+  const [isEdit, setIsEdit] = useState(false);
   const [selectedId, setSelectedId] = useState(0);
 
   const payload = useSelector(
@@ -41,6 +49,19 @@ const Home = () => {
   useEffect(() => {
     console.log('payload => ', payload);
   }, [payload]);
+
+  const handleChangeSelectionRecipient = (value: any) => {
+    dispatch(
+      setObjPayload({
+        ...payload,
+        penerima_nama: value?.nama,
+        penerima_no_telepon: value?.no_telepon,
+        penerima_kode_negara: value?.kode_negara,
+        penerima_kecamatan: value?.Kecamatan,
+        penerima_alamat: value?.alamat,
+      })
+    );
+  };
 
   const handleChangePayload = (property: string, value: any) => {
     dispatch(setObjPayload({ ...payload, [property]: value }));
@@ -56,8 +77,11 @@ const Home = () => {
     value: any
   ) => {
     const newPayload = [...(payload?.barang || [])];
-    newPayload[index] = value;
-    dispatch(setObjPayload({ ...payload, [property]: newPayload }));
+    newPayload[index] = {
+      ...newPayload[index],
+      [property]: value,
+    };
+    dispatch(setObjPayload({ ...payload, barang: newPayload }));
   };
 
   const handleClickAddItem = () => {
@@ -82,6 +106,58 @@ const Home = () => {
     dispatch(setObjPayload({ ...payload, shipment_type: value }));
   };
 
+  const handleSubmitCreateOder = async () => {
+    const mappingPayload: any = {
+      ...payload,
+      pengirim_kecamatan_id: payload?.pengirim_kecamatan?.id?.toString(),
+      penerima_kecamatan_id: payload?.penerima_kecamatan?.id?.toString(),
+    };
+
+    const schemaMapping = {
+      schema: orderSchema,
+      setErrors: setValidationErrors,
+      resetErrors: resetValidationErrors,
+    };
+
+    const validate = setErrorValidation(
+      mappingPayload,
+      dispatch,
+      schemaMapping
+    );
+
+    if (validate) {
+      const objPayloadFix = {
+        penerima: {
+          nama: mappingPayload?.penerima_nama,
+          no_telepon: mappingPayload?.penerima_no_telepon,
+          kode_negara: mappingPayload?.penerima_kode_negara,
+          kecamatan_id: mappingPayload?.penerima_kecamatan_id,
+          alamatan: mappingPayload?.penerima_alamat,
+        },
+        pengirim: {
+          nama: mappingPayload?.pengirim_nama,
+          no_telepon: mappingPayload?.pengirim_no_telepon,
+          kode_negara: mappingPayload?.pengirim_kode_negara,
+          kecamatan_id: mappingPayload?.pengirim_kecamatan_id,
+          alamatan: mappingPayload?.pengirim_alamat,
+        },
+      };
+      console.log('objPayloadFix => ', objPayloadFix);
+      // await fetchApi(
+      //   isEdit ? 'PUT' : 'POST',
+      //   `${process.env.NEXT_PUBLIC_API_URL}/penerima${isEdit ? `/${selectedId}` : ''}`,
+      //   {
+      //     ..._.omit(mappingPayload, ['kecamatan']),
+      //     kecamatan_id: Number(mappingPayload?.kecamatan_id),
+      //   }
+      // );
+
+      // dispatch(resetObjPayload());
+      // dispatch(resetValidationErrors());
+      // setIsEdit(false);
+    }
+  };
+
   return (
     <Master isBlankLayout={false}>
       <div className='flex flex-col gap-4'>
@@ -98,6 +174,7 @@ const Home = () => {
         <CardRecipientInformation
           data={payload}
           validation={validation}
+          handleChangeSelection={handleChangeSelectionRecipient}
           handleChangePayload={handleChangePayload}
           handleResetPayload={handleResetPayload}
         />
@@ -109,8 +186,27 @@ const Home = () => {
           handleClickAddItem={handleClickAddItem}
           handleClickDeleteItem={handleClickDeleteItem}
         />
-        <CardShipmentType handleClick={handleClickShipmentType} />
-        <CardPaymentMethod />
+        <CardShipmentType
+          data={payload}
+          validation={validation}
+          handleClick={handleClickShipmentType}
+        />
+        <CardPaymentMethod
+          data={payload}
+          validation={validation}
+          handleChangePayload={handleChangePayload}
+        />
+        <div className='flex justify-end'>
+          <Button
+            radius='lg'
+            color='success'
+            variant='shadow'
+            onClick={handleSubmitCreateOder}
+          >
+            <ShoppingCart size={20} />
+            <span>Buat Order</span>
+          </Button>
+        </div>
       </div>
       {/* [ END ] content */}
     </Master>

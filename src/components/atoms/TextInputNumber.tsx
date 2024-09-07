@@ -19,8 +19,12 @@ const TextInputNumber = ({
   handleChange = () => {},
 }: TextInputNumberProps) => {
   const handleChangeValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const inputValue = e.target.value;
-    if (/^\d*$/.test(inputValue)) {
+    let inputValue = e.target.value;
+    if (inputValue.startsWith('0') && inputValue.length > 1) {
+      inputValue = inputValue.replace(/^0+/, '');
+    }
+
+    if (/^(0|[1-9]\d*)$/.test(inputValue) || inputValue === '') {
       handleChange(inputValue);
     }
   };

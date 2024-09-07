@@ -1,37 +1,36 @@
 import { useEffect, useState, useCallback } from 'react';
 import { Autocomplete, AutocompleteItem } from '@nextui-org/react';
-import useLocation from '@/data/master-data/useLocation';
 import { debounce } from 'lodash';
-
-interface LocationDataProps {
-  id: number;
-  kecamatan: string;
-  kota: string;
-  provinsi: string;
-}
+import { useRecipientList } from '@/data/information';
 
 interface ItemsProps {
   label: string;
-  value: LocationDataProps;
+  value: any;
 }
 
-interface LocationSelectProps {
+interface RecipientSelectProps {
   placeholder: string;
-  selectedValue: LocationDataProps | null;
-  handleChangeValue?: (value: LocationDataProps) => void;
+  selectedValue: any | null;
+  handleInputValue?: (value: string) => void;
+  handleChangeValue?: (value: any) => void;
   handleResetValue?: () => void;
 }
 
-const LocationSelect = ({
+const RecipientSelect = ({
   placeholder,
   selectedValue,
+  handleInputValue,
   handleChangeValue,
   handleResetValue,
-}: LocationSelectProps) => {
+}: RecipientSelectProps) => {
   const [filter, setFilter] = useState<string>('');
   const [items, setItems] = useState<ItemsProps[]>([]);
 
-  const { locationData } = useLocation({ keyword: filter });
+  const { recipientListData } = useRecipientList({
+    limit: 50,
+    page: 1,
+    nama: filter,
+  });
 
   useEffect(() => {
     if (selectedValue) {
@@ -43,7 +42,7 @@ const LocationSelect = ({
           return [
             ...prevItems,
             {
-              label: `${selectedValue.kecamatan}, ${selectedValue.kota}, ${selectedValue.provinsi}`,
+              label: selectedValue.nama,
               value: selectedValue,
             },
           ];
@@ -54,16 +53,16 @@ const LocationSelect = ({
   }, [selectedValue]);
 
   useEffect(() => {
-    if (locationData?.data?.length) {
-      const mappingItems: ItemsProps[] = locationData.data.map(
-        (dataLocation: LocationDataProps) => ({
-          label: `${dataLocation.kecamatan}, ${dataLocation.kota}, ${dataLocation.provinsi}`,
-          value: dataLocation,
+    if (recipientListData?.data?.data?.length) {
+      const mappingItems: ItemsProps[] = recipientListData.data.data.map(
+        (dataRecipient: any) => ({
+          label: dataRecipient?.nama,
+          value: dataRecipient,
         })
       );
       setItems(mappingItems);
     }
-  }, [locationData]);
+  }, [recipientListData]);
 
   const handleSelectionChange = (key: React.Key | null) => {
     if (key) {
@@ -81,8 +80,9 @@ const LocationSelect = ({
   const debouncedInputChange = useCallback(
     debounce((value: string) => {
       setFilter(value);
+      handleInputValue?.(value);
     }, 500),
-    []
+    [handleInputValue]
   );
 
   const handleInputChange = (value: string) => {
@@ -91,6 +91,7 @@ const LocationSelect = ({
 
   return (
     <Autocomplete
+      aria-label='Recipient selection'
       items={items}
       placeholder={placeholder}
       defaultSelectedKey={
@@ -109,4 +110,4 @@ const LocationSelect = ({
   );
 };
 
-export default LocationSelect;
+export default RecipientSelect;

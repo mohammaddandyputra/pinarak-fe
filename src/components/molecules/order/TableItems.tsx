@@ -35,7 +35,7 @@ const TableItems = ({
         </TableColumn>
         <TableColumn>
           {' '}
-          <p className='text-sm text-black'>Dimensi/Paket (P x L x T)</p>
+          <p className='text-sm text-black'>Dimensi/Paket (P x L x T) (cm)</p>
         </TableColumn>
         <TableColumn>
           {' '}
@@ -58,7 +58,13 @@ const TableItems = ({
                   </Button>
                 </TableCell>
                 <TableCell>
-                  <TextInputNumber value={item?.berat_barang} placeholder='0' />
+                  <TextInputNumber
+                    value={item?.berat_barang}
+                    placeholder='0'
+                    handleChange={(value) =>
+                      handleChangePayload?.('berat_barang', index, value)
+                    }
+                  />
                 </TableCell>
                 <TableCell width={300}>
                   <div className='flex gap-3'>
@@ -89,7 +95,13 @@ const TableItems = ({
                   </div>
                 </TableCell>
                 <TableCell>
-                  <TextInputNumber value={item?.berat_volume} placeholder='0' />
+                  <TextInputNumber
+                    value={item?.berat_volume}
+                    placeholder='0'
+                    handleChange={(value) =>
+                      handleChangePayload?.('berat_volume', index, value)
+                    }
+                  />
                 </TableCell>
               </TableRow>
             ))

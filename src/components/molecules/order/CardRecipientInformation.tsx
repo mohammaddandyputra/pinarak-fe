@@ -3,22 +3,19 @@ import {
   CardHeader,
   CardBody,
   Divider,
-  Input,
   Textarea,
   Checkbox,
   Button,
 } from '@nextui-org/react';
-import { FormLabel } from '../common';
-import {
-  LocationSelect,
-  TextInputNumber,
-  TextInputPhoneNumber,
-} from '@/components/atoms';
+import { FormLabel, RecipientSelect } from '../common';
+import { LocationSelect, TextInputPhoneNumber } from '@/components/atoms';
 import { Home, Building } from 'lucide-react';
+import _ from 'lodash';
 
 interface CardRecipientInformationProps {
   data: Record<string, any>;
   validation: any;
+  handleChangeSelection?: (value: any) => void;
   handleChangePayload?: (property: string, value: any) => void;
   handleResetPayload?: (property: string) => void;
 }
@@ -26,6 +23,7 @@ interface CardRecipientInformationProps {
 const CardRecipientInformation = ({
   data,
   validation,
+  handleChangeSelection,
   handleChangePayload,
   handleResetPayload,
 }: CardRecipientInformationProps) => {
@@ -41,16 +39,25 @@ const CardRecipientInformation = ({
             <FormLabel
               label='Nama*'
               form={
-                <Input
-                  type='text'
-                  placeholder='Masukkan nama penerima'
-                  radius='sm'
-                  value={data?.penerima_nama || ''}
-                  onChange={(e) =>
-                    handleChangePayload?.('penerima_nama', e.target.value)
+                <RecipientSelect
+                  selectedValue={
+                    data?.penerima_id
+                      ? {
+                          id: data?.penerima_id,
+                          nama: data?.penerima_nama,
+                          no_telepon: data?.penerima_no_telepon,
+                        }
+                      : null
                   }
+                  placeholder='Masukkan nama penerima'
+                  handleChangeValue={(value) => handleChangeSelection?.(value)}
+                  handleInputValue={(value) =>
+                    handleChangePayload?.('penerima_nama', value)
+                  }
+                  handleResetValue={() => handleResetPayload?.('penerima_nama')}
                 />
               }
+              errors={validation?.penerima_nama}
               labelPositionTop
             />
             <FormLabel
@@ -58,19 +65,24 @@ const CardRecipientInformation = ({
               form={
                 <TextInputPhoneNumber
                   value={data?.penerima_no_telepon}
+                  selectValue={data?.penerima_kode_negara}
                   placeholder='Masukkan nomer telepon penerima'
                   handleChange={(value) => {
                     handleChangePayload?.('penerima_no_telepon', value);
                   }}
+                  handleChangeSelect={(value) =>
+                    handleChangePayload?.('penerima_kode_negara', value)
+                  }
                 />
               }
+              errors={validation?.penerima_no_telepon}
               labelPositionTop
             />
             <FormLabel
               label='Kecamatan, Kota Asal*'
               form={
                 <LocationSelect
-                  selectedValue={data?.kecamatan || null}
+                  selectedValue={data?.penerima_kecamatan || null}
                   placeholder='Ketik atau pilih alamat tujuan'
                   handleChangeValue={(value) =>
                     handleChangePayload?.('penerima_kecamatan', value)
@@ -80,6 +92,7 @@ const CardRecipientInformation = ({
                   }
                 />
               }
+              errors={validation?.penerima_kecamatan_id}
               labelPositionTop
             />
           </div>
@@ -94,21 +107,17 @@ const CardRecipientInformation = ({
                   classNames={{
                     input: 'resize-y min-h-[105px]',
                   }}
-                  value={data?.alamat || ''}
+                  value={data?.penerima_alamat || ''}
                   onChange={(e) =>
                     handleChangePayload?.('penerima_alamat', e.target.value)
                   }
                 />
               }
+              errors={validation?.penerima_alamat}
               labelPositionTop
             />
             <div className='min-h-[1rem]' />
-            <div
-              className='flex justify-between'
-              color={
-                data?.penerima_jenis_alamat === 'rumah' ? 'danger' : 'default'
-              }
-            >
+            <div className='flex justify-between'>
               <div className='flex gap-3'>
                 <Button
                   size='sm'
