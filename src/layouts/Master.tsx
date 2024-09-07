@@ -5,7 +5,7 @@ import { deleteCookie } from 'cookies-next';
 
 // Definisikan tipe untuk properti komponen
 interface MasterProps {
-  isBlankLayout: boolean;
+  isBlankLayout: boolean | false;
   children: ReactNode;
 }
 

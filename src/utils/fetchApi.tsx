@@ -14,6 +14,7 @@ const fetchApi = async (
     console.log('header => ', headers);
     const options: RequestInit = {
       method,
+      headers,
       body: JSON.stringify(body),
       headers,
     };
