@@ -22,7 +22,6 @@ const CardContentShipmentType = ({
   };
 
   const colorClass = colorClasses[name];
-  console.log(`name => ${name}, colorClass => ${colorClass}`);
 
   return (
     <DivAction handleClick={() => handleClick(name)}>

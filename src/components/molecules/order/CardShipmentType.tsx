@@ -15,18 +15,13 @@ const CardShipmentType = ({
 }: CardShipmentTypeProps) => {
   return (
     <Card>
-      <CardHeader>
-        <div className='flex justify-center items-center gap-2'>
-          <p className='text-base font-semibold'>Jenis Pengiriman</p>
-          {validation?.shipment_type ? (
-            <ErrorValidation
-              message={validation?.shipment_type}
-              className='font-bold'
-            />
-          ) : (
-            ''
-          )}
-        </div>
+      <CardHeader className='gap-2'>
+        <p className='text-base font-semibold'>Jenis Pengiriman</p>
+        {validation?.jenis_pengiriman ? (
+          <ErrorValidation message={validation?.jenis_pengiriman} />
+        ) : (
+          ''
+        )}
       </CardHeader>
       <Divider />
       <CardBody>
@@ -34,25 +29,25 @@ const CardShipmentType = ({
           <CardContentShipmentType
             name='lite'
             description='Pengiriman Murah & Ekonomis'
-            isSelected={data?.shipment_type === 'lite'}
+            isSelected={data?.jenis_pengiriman === 'lite'}
             handleClick={handleClick}
           />
           <CardContentShipmentType
             name='express'
             description='Pengiriman Cepat & Prioritas'
-            isSelected={data?.shipment_type === 'express'}
+            isSelected={data?.jenis_pengiriman === 'express'}
             handleClick={handleClick}
           />
           <CardContentShipmentType
             name='reguler'
             description='Pengiriman Standar'
-            isSelected={data?.shipment_type === 'reguler'}
+            isSelected={data?.jenis_pengiriman === 'reguler'}
             handleClick={handleClick}
           />
           <CardContentShipmentType
             name='trucking'
             description='Pengiriman Paket Besar'
-            isSelected={data?.shipment_type === 'trucking'}
+            isSelected={data?.jenis_pengiriman === 'trucking'}
             handleClick={handleClick}
           />
         </div>

@@ -11,9 +11,11 @@ const fetchApi = async (
 ): Promise<any> => {
   try {
     const { headers } = getTokenConfig();
+    console.log('header => ', headers);
     const options: RequestInit = {
       method,
       body: JSON.stringify(body),
+      headers,
     };
     const response = await fetch(url, options);
 

@@ -1,3 +1,4 @@
+import { ErrorValidation } from '@/components/atoms';
 import {
   Card,
   CardHeader,
@@ -20,8 +21,13 @@ const CardPaymentMethod = ({
 }: CardPaymentMethodProps) => {
   return (
     <Card>
-      <CardHeader>
+      <CardHeader className='gap-2'>
         <p className='text-base font-semibold'>Metode Pembayaran</p>
+        {validation?.metode_pembayaran ? (
+          <ErrorValidation message={validation?.metode_pembayaran} />
+        ) : (
+          ''
+        )}
       </CardHeader>
       <Divider />
       <CardBody>

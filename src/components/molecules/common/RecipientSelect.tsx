@@ -10,6 +10,7 @@ interface ItemsProps {
 
 interface RecipientSelectProps {
   placeholder: string;
+  value: string | undefined;
   selectedValue: any | null;
   handleInputValue?: (value: string) => void;
   handleChangeValue?: (value: any) => void;
@@ -18,6 +19,7 @@ interface RecipientSelectProps {
 
 const RecipientSelect = ({
   placeholder,
+  value,
   selectedValue,
   handleInputValue,
   handleChangeValue,
@@ -92,12 +94,14 @@ const RecipientSelect = ({
   return (
     <Autocomplete
       aria-label='Recipient selection'
+      allowsCustomValue={true}
       items={items}
       placeholder={placeholder}
       defaultSelectedKey={
         selectedValue ? selectedValue.id.toString() : undefined
       }
       selectedKey={selectedValue ? selectedValue.id.toString() : undefined}
+      value={value}
       onSelectionChange={handleSelectionChange}
       onInputChange={handleInputChange}
     >
