@@ -5,11 +5,9 @@ import {
   Divider,
   Textarea,
   Checkbox,
-  Button,
 } from '@nextui-org/react';
 import { FormLabel, RecipientSelect } from '../common';
 import { LocationSelect, TextInputPhoneNumber } from '@/components/atoms';
-import { Home, Building } from 'lucide-react';
 import _ from 'lodash';
 
 interface CardSenderInformationProps {
@@ -41,58 +39,58 @@ const CardSenderInformation = ({
               form={
                 <RecipientSelect
                   selectedValue={
-                    data?.penerima_id
+                    data?.pengirim_id
                       ? {
-                          id: data?.penerima_id,
-                          nama: data?.penerima_nama,
-                          no_telepon: data?.penerima_no_telepon,
+                          id: data?.pengirim_id,
+                          nama: data?.pengirim_nama,
+                          no_telepon: data?.pengirim_no_telepon,
                         }
                       : null
                   }
-                  placeholder='Masukkan nama penerima'
+                  placeholder='Masukkan nama pengirim'
                   handleChangeValue={(value) => handleChangeSelection?.(value)}
                   handleInputValue={(value) =>
-                    handleChangePayload?.('penerima_nama', value)
+                    handleChangePayload?.('pengirim_nama', value)
                   }
-                  handleResetValue={() => handleResetPayload?.('penerima_nama')}
+                  handleResetValue={() => handleResetPayload?.('pengirim_nama')}
                 />
               }
-              errors={validation?.penerima_nama}
+              errors={validation?.pengirim_nama}
               labelPositionTop
             />
             <FormLabel
               label='Nomer Telepon*'
               form={
                 <TextInputPhoneNumber
-                  value={data?.penerima_no_telepon}
-                  selectValue={data?.penerima_kode_negara}
-                  placeholder='Masukkan nomer telepon penerima'
+                  value={data?.pengirim_no_telepon}
+                  selectValue={data?.pengirim_kode_negara}
+                  placeholder='Masukkan nomer telepon pengirim'
                   handleChange={(value) => {
-                    handleChangePayload?.('penerima_no_telepon', value);
+                    handleChangePayload?.('pengirim_no_telepon', value);
                   }}
                   handleChangeSelect={(value) =>
-                    handleChangePayload?.('penerima_kode_negara', value)
+                    handleChangePayload?.('pengirim_kode_negara', value)
                   }
                 />
               }
-              errors={validation?.penerima_no_telepon}
+              errors={validation?.pengirim_no_telepon}
               labelPositionTop
             />
             <FormLabel
               label='Kecamatan, Kota Asal*'
               form={
                 <LocationSelect
-                  selectedValue={data?.penerima_kecamatan || null}
+                  selectedValue={data?.pengirim_kecamatan || null}
                   placeholder='Ketik atau pilih alamat tujuan'
                   handleChangeValue={(value) =>
-                    handleChangePayload?.('penerima_kecamatan', value)
+                    handleChangePayload?.('pengirim_kecamatan', value)
                   }
                   handleResetValue={() =>
-                    handleResetPayload?.('penerima_kecamatan')
+                    handleResetPayload?.('pengirim_kecamatan')
                   }
                 />
               }
-              errors={validation?.penerima_kecamatan_id}
+              errors={validation?.pengirim_kecamatan_id}
               labelPositionTop
             />
           </div>
@@ -101,31 +99,31 @@ const CardSenderInformation = ({
               label='Alamat*'
               form={
                 <Textarea
-                  placeholder='Masukkan alamat penerima'
+                  placeholder='Masukkan alamat pengirim'
                   radius='sm'
                   disableAutosize
                   classNames={{
                     input: 'resize-y min-h-[105px]',
                   }}
-                  value={data?.penerima_alamat || ''}
+                  value={data?.pengirim_alamat || ''}
                   onChange={(e) =>
-                    handleChangePayload?.('penerima_alamat', e.target.value)
+                    handleChangePayload?.('pengirim_alamat', e.target.value)
                   }
                 />
               }
-              errors={validation?.penerima_alamat}
+              errors={validation?.pengirim_alamat}
               labelPositionTop
             />
             <div className='min-h-[1.1rem]' />
             <div className='flex justify-end'>
               <Checkbox
-                isSelected={data?.penerima_is_save}
-                value={data?.penerima_is_save}
+                isSelected={data?.pengirim_is_save}
+                value={data?.pengirim_is_save}
                 onValueChange={(value) => {
-                  handleChangePayload?.('penerima_is_save', value);
+                  handleChangePayload?.('pengirim_is_save', value);
                 }}
               >
-                <span className='text-sm'>Simpan Data Penerima</span>
+                <span className='text-sm'>Simpan Data Pengirim</span>
               </Checkbox>
             </div>
           </div>

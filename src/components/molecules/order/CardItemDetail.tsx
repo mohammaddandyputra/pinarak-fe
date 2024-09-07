@@ -1,6 +1,7 @@
 import { Card, CardHeader, CardBody, Divider, Button } from '@nextui-org/react';
 import TableItems from './TableItems';
 import { Plus } from 'lucide-react';
+import { ErrorValidation } from '@/components/atoms';
 
 interface CardItemDetailProps {
   data?: Record<string, any>;
@@ -27,14 +28,20 @@ const CardItemDetail = ({
 }: CardItemDetailProps) => {
   return (
     <Card>
-      <CardHeader>
-        <p className='text-base font-semibold'>Detail Barang</p>
+      <CardHeader className='gap-2'>
+        <span className='text-base font-semibold'>Detail Barang</span>
+        {validation?.barang ? (
+          <ErrorValidation message={validation?.barang} />
+        ) : (
+          ''
+        )}
       </CardHeader>
       <Divider />
       <CardBody>
         <div className='w-full flex flex-col gap-4 p-2'>
           <TableItems
             data={data?.barang}
+            dataShipmentType={data?.jenis_pengiriman}
             validation={validation}
             handleChangePayload={handleChangePayloadItem}
             handleClickDelete={handleClickDeleteItem}

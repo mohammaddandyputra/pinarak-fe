@@ -8,7 +8,11 @@ import {
   Button,
 } from '@nextui-org/react';
 import { FormLabel, RecipientSelect } from '../common';
-import { LocationSelect, TextInputPhoneNumber } from '@/components/atoms';
+import {
+  ErrorValidation,
+  LocationSelect,
+  TextInputPhoneNumber,
+} from '@/components/atoms';
 import { Home, Building } from 'lucide-react';
 import _ from 'lodash';
 
@@ -49,6 +53,7 @@ const CardRecipientInformation = ({
                         }
                       : null
                   }
+                  value={data?.penerima_nama}
                   placeholder='Masukkan nama penerima'
                   handleChangeValue={(value) => handleChangeSelection?.(value)}
                   handleInputValue={(value) =>
@@ -118,55 +123,66 @@ const CardRecipientInformation = ({
             />
             <div className='min-h-[1rem]' />
             <div className='flex justify-between'>
-              <div className='flex gap-3'>
-                <Button
-                  size='sm'
-                  variant='bordered'
-                  color={
-                    data?.penerima_jenis_alamat === 'rumah'
-                      ? 'danger'
-                      : 'default'
-                  }
-                  onClick={() =>
-                    handleChangePayload?.('penerima_jenis_alamat', 'rumah')
-                  }
-                >
-                  <Home
-                    size={18}
+              <div>
+                <div className='flex gap-3'>
+                  <Button
+                    size='sm'
+                    variant='bordered'
                     color={
-                      data?.penerima_jenis_alamat === 'rumah' ? 'red' : 'gray'
+                      data?.penerima_jenis_alamat === 'rumah'
+                        ? 'danger'
+                        : 'default'
                     }
-                  />
-                  <span
-                    className={`font-semibold text-base ${data?.penerima_jenis_alamat === 'rumah' ? 'text-red-500' : 'text-gray-500'}`}
+                    onClick={() =>
+                      handleChangePayload?.('penerima_jenis_alamat', 'rumah')
+                    }
                   >
-                    Rumah
-                  </span>
-                </Button>
-                <Button
-                  size='sm'
-                  variant='bordered'
-                  color={
-                    data?.penerima_jenis_alamat === 'kantor'
-                      ? 'danger'
-                      : 'default'
-                  }
-                  onClick={() =>
-                    handleChangePayload?.('penerima_jenis_alamat', 'kantor')
-                  }
-                >
-                  <Building
-                    size={18}
+                    <Home
+                      size={18}
+                      color={
+                        data?.penerima_jenis_alamat === 'rumah' ? 'red' : 'gray'
+                      }
+                    />
+                    <span
+                      className={`font-semibold text-base ${data?.penerima_jenis_alamat === 'rumah' ? 'text-red-500' : 'text-gray-500'}`}
+                    >
+                      Rumah
+                    </span>
+                  </Button>
+                  <Button
+                    size='sm'
+                    variant='bordered'
                     color={
-                      data?.penerima_jenis_alamat === 'kantor' ? 'red' : 'gray'
+                      data?.penerima_jenis_alamat === 'kantor'
+                        ? 'danger'
+                        : 'default'
                     }
-                  />
-                  <span
-                    className={`font-semibold text-base ${data?.penerima_jenis_alamat === 'kantor' ? 'text-red-500' : 'text-gray-500'}`}
+                    onClick={() =>
+                      handleChangePayload?.('penerima_jenis_alamat', 'kantor')
+                    }
                   >
-                    Kantor
-                  </span>
-                </Button>
+                    <Building
+                      size={18}
+                      color={
+                        data?.penerima_jenis_alamat === 'kantor'
+                          ? 'red'
+                          : 'gray'
+                      }
+                    />
+                    <span
+                      className={`font-semibold text-base ${data?.penerima_jenis_alamat === 'kantor' ? 'text-red-500' : 'text-gray-500'}`}
+                    >
+                      Kantor
+                    </span>
+                  </Button>
+                </div>
+                {validation?.penerima_jenis_alamat ? (
+                  <ErrorValidation
+                    message={validation?.penerima_jenis_alamat}
+                  />
+                ) : (
+                  ''
+                )}
               </div>
               <Checkbox
                 isSelected={data?.penerima_is_save}

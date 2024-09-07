@@ -21,6 +21,10 @@ const TextInputPhoneNumber = ({
   handleChange = () => {},
   handleChangeSelect = () => {},
 }: TextInputPhoneNumberProps) => {
+  const regionCode: any = {
+    id: '62',
+    sg: '65',
+  };
   const handleChangeValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     let inputValue = e.target.value;
 
@@ -39,19 +43,24 @@ const TextInputPhoneNumber = ({
       radius='sm'
       label={label ? label : undefined}
       startContent={
-        <div className='h-full -ml-2 px-2 flex items-center justify-center border-r-3 border-white'>
-          <Phone size={20} />
+        <div className='h-full -ml-2 flex items-center justify-center'>
+          <div className='h-full flex items-center justify-center px-2 border-r-3 border-white'>
+            <Phone size={20} />
+          </div>
+          <span className='pl-2 text-sm'>
+            {`(+${regionCode[selectValue || 'id']})`}
+          </span>
         </div>
       }
       endContent={
         <div className='flex items-center'>
           <select
             className='outline-none border-0 bg-transparent text-default-400 text-small'
-            value={selectValue}
+            value={selectValue || 'id'}
             onChange={(e) => handleChangeSelect(e.target.value)}
           >
-            <option value='id'>(+62) Indonesia</option>
-            <option value='sg'>(+65) Singapore</option>
+            <option value='id'>Indonesia</option>
+            <option value='sg'>Singapore</option>
           </select>
         </div>
       }

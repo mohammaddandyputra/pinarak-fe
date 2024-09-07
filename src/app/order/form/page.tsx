@@ -24,6 +24,7 @@ import { fetchApi, setErrorValidation } from '@/utils';
 import orderSchema from '@/schemas/shipment/orderSchema';
 import _ from 'lodash';
 import { useSearchParams } from 'next/navigation';
+import { errorToastify } from '@/utils';
 
 const Home = () => {
   const p = useSearchParams().get('p');
@@ -50,13 +51,26 @@ const Home = () => {
     console.log('payload => ', payload);
   }, [payload]);
 
+  const handleChangeSelectionSender = (value: any) => {
+    dispatch(
+      setObjPayload({
+        ...payload,
+        pengirim_nama: value?.nama,
+        pengirim_no_telepon: value?.no_telepon,
+        pengirim_kode_negara: value?.kode_negara || 'id',
+        pengirim_kecamatan: value?.Kecamatan,
+        pengirim_alamat: value?.alamat,
+      })
+    );
+  };
+
   const handleChangeSelectionRecipient = (value: any) => {
     dispatch(
       setObjPayload({
         ...payload,
         penerima_nama: value?.nama,
         penerima_no_telepon: value?.no_telepon,
-        penerima_kode_negara: value?.kode_negara,
+        penerima_kode_negara: value?.kode_negara || 'id',
         penerima_kecamatan: value?.Kecamatan,
         penerima_alamat: value?.alamat,
       })
@@ -87,11 +101,11 @@ const Home = () => {
   const handleClickAddItem = () => {
     const newPayload = [...(payload?.barang || [])];
     newPayload.push({
-      berat_barang: '0',
-      panjang: '0',
-      lebar: '0',
-      tinggi: '0',
-      berat_volume: '0',
+      berat_barang: '',
+      panjang: '',
+      lebar: '',
+      tinggi: '',
+      berat_volume: '',
     });
     dispatch(setObjPayload({ ...payload, barang: newPayload }));
   };
@@ -103,7 +117,7 @@ const Home = () => {
   };
 
   const handleClickShipmentType = (value: string) => {
-    dispatch(setObjPayload({ ...payload, shipment_type: value }));
+    dispatch(setObjPayload({ ...payload, jenis_pengiriman: value }));
   };
 
   const handleSubmitCreateOder = async () => {
@@ -142,6 +156,7 @@ const Home = () => {
           alamatan: mappingPayload?.pengirim_alamat,
         },
       };
+
       console.log('objPayloadFix => ', objPayloadFix);
       // await fetchApi(
       //   isEdit ? 'PUT' : 'POST',
@@ -155,6 +170,8 @@ const Home = () => {
       // dispatch(resetObjPayload());
       // dispatch(resetValidationErrors());
       // setIsEdit(false);
+    } else {
+      errorToastify('Form masih belum lengkap. Silahkan cek kembali!');
     }
   };
 
@@ -168,6 +185,7 @@ const Home = () => {
         <CardSenderInformation
           data={payload}
           validation={validation}
+          handleChangeSelection={handleChangeSelectionSender}
           handleChangePayload={handleChangePayload}
           handleResetPayload={handleResetPayload}
         />

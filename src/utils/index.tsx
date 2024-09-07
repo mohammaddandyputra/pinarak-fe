@@ -4,6 +4,7 @@ import fetchApi from './fetchApi';
 import errorToastify from './errorToastify';
 import successToastify from './successToastify';
 import setErrorValidation from './setErrorValidation';
+import calculateVolumetricWeight from './calculateVolumetricWeight';
 
 export {
   getTokenConfig,
@@ -12,4 +13,5 @@ export {
   errorToastify,
   successToastify,
   setErrorValidation,
+  calculateVolumetricWeight,
 };

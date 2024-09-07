@@ -5,6 +5,7 @@ interface TextInputNumberProps {
   placeholder: string;
   value: string;
   label?: string;
+  isDisabled?: boolean;
   startIcon?: React.ReactNode;
   endIcon?: React.ReactNode;
   handleChange?: (value: string) => void;
@@ -14,6 +15,7 @@ const TextInputNumber = ({
   placeholder = '',
   value = '',
   label,
+  isDisabled = false,
   startIcon,
   endIcon,
   handleChange = () => {},
@@ -38,6 +40,7 @@ const TextInputNumber = ({
       endContent={endIcon ? endIcon : null}
       placeholder={placeholder}
       value={value}
+      isDisabled={isDisabled}
       onChange={handleChangeValue}
     />
   );

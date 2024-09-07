@@ -16,8 +16,6 @@ const useLocation = ({ keyword }: UseLocationParams) => {
     enabled: !!keyword,
   });
 
-  console.log('Location Data:', data);
-
   return {
     locationData: data,
     locationIsLoading: isLoading,
