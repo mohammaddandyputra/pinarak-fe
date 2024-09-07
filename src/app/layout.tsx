@@ -7,8 +7,9 @@ import {
   ReduxProvider,
   TanstackProvider,
   ToastProvider,
+  NextAuthProvider,
 } from '../providers';
-import { ClerkProvider } from '@clerk/nextjs';
+import { useSession } from 'next-auth/react';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -25,16 +26,17 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body className={inter.className}>
-        <NextUIProvider>
-          <ClerkProvider>
+        <NextAuthProvider>
+          <NextUIProvider>
             <ReduxProvider>
               <TanstackProvider>
-                <ToastProvider>{children}</ToastProvider>
-                <ToastContainer />
+                {children}
+                {/* <ToastProvider>{children}</ToastProvider>
+                <ToastContainer /> */}
               </TanstackProvider>
             </ReduxProvider>
-          </ClerkProvider>
-        </NextUIProvider>
+          </NextUIProvider>
+        </NextAuthProvider>
       </body>
     </html>
   );

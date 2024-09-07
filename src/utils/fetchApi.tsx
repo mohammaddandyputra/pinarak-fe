@@ -13,6 +13,7 @@ const fetchApi = async (
     const { headers } = getTokenConfig();
     const options: RequestInit = {
       method,
+      headers,
       body: JSON.stringify(body),
     };
     const response = await fetch(url, options);

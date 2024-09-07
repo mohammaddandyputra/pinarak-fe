@@ -1,11 +1,22 @@
 import { ApiResponse } from '@/interfaces/common';
-import { useAuth } from '@clerk/nextjs';
+import { useSession } from 'next-auth/react';
+
+interface User {
+  id?: number;
+  nama?: string;
+  email?: string;
+  role_id?: number;
+  unit_id?: number;
+  is_superadmin?: boolean;
+  is_verified?: boolean;
+  accessToken?: string;
+}
 
 const useFetcherData = () => {
-  const { getToken } = useAuth();
+  const { data: session } = useSession();
 
   const fetcher = async (url: string): Promise<ApiResponse> => {
-    const token = await getToken();
+    const token = (session?.user as User)?.accessToken;
 
     if (!token) {
       throw new Error('Token is null or undefined');

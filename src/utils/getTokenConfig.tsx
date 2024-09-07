@@ -1,11 +1,14 @@
 import { getCookie } from 'cookies-next';
+import { useSession } from 'next-auth/react';
 
 const getTokenConfig = (): RequestInit => {
-  const token = getCookie('token') as string | undefined;
+  const { data: session } = useSession();
+
+  const accessToken = (session?.user as any)?.accessToken;
 
   const config: RequestInit = {
     headers: {
-      Authorization: token ? `Bearer ${token}` : '',
+      Authorization: accessToken ? `Bearer ${accessToken}` : '',
     },
   };
 
