@@ -30,9 +30,9 @@ export default function RootLayout({
           <NextUIProvider>
             <ReduxProvider>
               <TanstackProvider>
-                {children}
-                {/* <ToastProvider>{children}</ToastProvider>
-                <ToastContainer /> */}
+                {/* {children} */}
+                <ToastProvider>{children}</ToastProvider>
+                <ToastContainer />
               </TanstackProvider>
             </ReduxProvider>
           </NextUIProvider>

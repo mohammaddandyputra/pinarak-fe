@@ -2,7 +2,6 @@
 
 import { Master } from '@/layouts';
 import { Breadcrumbs } from '@/components/atoms';
-import { ToastContainer, toast } from 'react-toastify';
 
 const Home = () => {
   const breadcrumbs = [

@@ -20,7 +20,11 @@ import {
 import { useEffect, useState } from 'react';
 import { Button } from '@nextui-org/react';
 import { ShoppingCart } from 'lucide-react';
-import { fetchApi, setErrorValidation } from '@/utils';
+import {
+  calculateVolumetricWeight,
+  fetchApi,
+  setErrorValidation,
+} from '@/utils';
 import orderSchema from '@/schemas/shipment/orderSchema';
 import _ from 'lodash';
 import { useSearchParams } from 'next/navigation';
@@ -37,9 +41,6 @@ const Home = () => {
     { page: 'Form', path: '/order/form' },
   ];
 
-  const [isEdit, setIsEdit] = useState(false);
-  const [selectedId, setSelectedId] = useState(0);
-
   const payload = useSelector(
     (state: RootState) => state.orderShipmentForm.objPayload
   );
@@ -50,6 +51,24 @@ const Home = () => {
   useEffect(() => {
     console.log('payload => ', payload);
   }, [payload]);
+
+  useEffect(() => {
+    if (payload?.barang?.length && payload?.jenis_pengiriman) {
+      const shipmentType = payload?.jenis_pengiriman;
+      const mappingItem = payload?.barang?.map((item: any) => {
+        return {
+          ...item,
+          berat_volume: calculateVolumetricWeight(
+            shipmentType,
+            item?.panjang,
+            item?.lebar,
+            item?.tinggi
+          ),
+        };
+      });
+      dispatch(setObjPayload({ ...payload, barang: mappingItem }));
+    }
+  }, [JSON.stringify(payload)]);
 
   const handleChangeSelectionSender = (value: any) => {
     dispatch(
@@ -141,12 +160,18 @@ const Home = () => {
 
     if (validate) {
       const objPayloadFix = {
+        ..._.pick(mappingPayload, [
+          'barang',
+          'jenis_pengiriman',
+          'metode_pembayaran',
+        ]),
         penerima: {
           nama: mappingPayload?.penerima_nama,
           no_telepon: mappingPayload?.penerima_no_telepon,
           kode_negara: mappingPayload?.penerima_kode_negara,
           kecamatan_id: mappingPayload?.penerima_kecamatan_id,
           alamatan: mappingPayload?.penerima_alamat,
+          is_save: Boolean(mappingPayload?.penerima_is_save),
         },
         pengirim: {
           nama: mappingPayload?.pengirim_nama,
@@ -154,22 +179,9 @@ const Home = () => {
           kode_negara: mappingPayload?.pengirim_kode_negara,
           kecamatan_id: mappingPayload?.pengirim_kecamatan_id,
           alamatan: mappingPayload?.pengirim_alamat,
+          is_save: Boolean(mappingPayload?.pengirim_is_save),
         },
       };
-
-      console.log('objPayloadFix => ', objPayloadFix);
-      // await fetchApi(
-      //   isEdit ? 'PUT' : 'POST',
-      //   `${process.env.NEXT_PUBLIC_API_URL}/penerima${isEdit ? `/${selectedId}` : ''}`,
-      //   {
-      //     ..._.omit(mappingPayload, ['kecamatan']),
-      //     kecamatan_id: Number(mappingPayload?.kecamatan_id),
-      //   }
-      // );
-
-      // dispatch(resetObjPayload());
-      // dispatch(resetValidationErrors());
-      // setIsEdit(false);
     } else {
       errorToastify('Form masih belum lengkap. Silahkan cek kembali!');
     }

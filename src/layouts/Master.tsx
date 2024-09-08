@@ -1,7 +1,6 @@
 'use client';
 import React, { useState, ReactNode, useEffect } from 'react';
 import { Main, Navbar, Sidebar } from '@/components/atoms';
-import { deleteCookie } from 'cookies-next';
 
 // Definisikan tipe untuk properti komponen
 interface MasterProps {

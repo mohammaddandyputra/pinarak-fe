@@ -9,10 +9,11 @@ import {
 } from '@nextui-org/react';
 import { Trash } from 'lucide-react';
 import { TextInputNumber, ErrorValidation } from '@/components/atoms';
+import { calculateVolumetricWeight } from '@/utils';
 
 interface TableItemsProps {
   data: Record<string, any>;
-  dataShipmentType: string;
+  dataShipmentType: 'reguler' | 'express' | 'trucking';
   validation: any;
   isDisabled?: boolean;
   handleChangePayload?: (property: string, index: number, value: any) => void;

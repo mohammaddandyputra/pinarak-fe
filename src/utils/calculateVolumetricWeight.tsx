@@ -10,6 +10,8 @@ const calculateVolumetricWeight = (
     divisor = 6;
   } else if (jenis_pengiriman === 'trucking') {
     divisor = 3;
+  } else {
+    divisor = 0;
   }
 
   return (panjang * lebar * tinggi) / divisor;

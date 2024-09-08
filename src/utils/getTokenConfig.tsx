@@ -4,7 +4,7 @@ import { useSession } from 'next-auth/react';
 const getTokenConfig = (): RequestInit => {
   const { data: session } = useSession();
 
-  const accessToken = (session?.user as any)?.accessToken;
+  const accessToken = session?.accessToken;
 
   const config: RequestInit = {
     headers: {

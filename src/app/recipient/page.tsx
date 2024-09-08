@@ -34,8 +34,10 @@ import {
   Pagination,
 } from '@nextui-org/react';
 import { Filter, UserPlusIcon } from 'lucide-react';
+import { useSession } from 'next-auth/react';
 
 const Home = () => {
+  const { data: session } = useSession();
   const dispatch = useDispatch();
   const breadcrumbs = [
     { page: 'Home', path: '/' },
@@ -168,6 +170,7 @@ const Home = () => {
 
   const handleSubmitModalDelete = async () => {
     await fetchApi(
+      session?.accessToken,
       'DELETE',
       `${process.env.NEXT_PUBLIC_API_URL}/penerima/${selectedId}`,
       {}
@@ -206,6 +209,7 @@ const Home = () => {
 
     if (validate) {
       await fetchApi(
+        session?.accessToken,
         isEdit ? 'PUT' : 'POST',
         `${process.env.NEXT_PUBLIC_API_URL}/penerima${isEdit ? `/${selectedId}` : ''}`,
         {

@@ -1,8 +1,8 @@
 import errorToastify from './errorToastify';
-import getTokenConfig from './getTokenConfig';
 import successToastify from './successToastify';
 
 const fetchApi = async (
+  token: string | undefined,
   method: string,
   url: string,
   body?: any,
@@ -10,14 +10,17 @@ const fetchApi = async (
   messageSuccess?: string
 ): Promise<any> => {
   try {
-    const { headers } = getTokenConfig();
-    console.log('header => ', headers);
+    const headers: HeadersInit = {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    };
+
     const options: RequestInit = {
       method,
       headers,
       body: JSON.stringify(body),
-      headers,
     };
+
     const response = await fetch(url, options);
 
     if (!response.ok) {
