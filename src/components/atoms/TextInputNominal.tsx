@@ -18,15 +18,23 @@ const TextInputNominal = ({
   endIcon,
   handleChange = () => {},
 }: TextInputNominalProps) => {
-  // Fungsi untuk memformat angka dengan titik setiap ribuan
   const formatNominal = (value: string) => {
     return value.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
   };
 
+  const unformatNominal = (value: string) => {
+    return value.replace(/\./g, '');
+  };
+
   const handleChangeValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const inputValue = e.target.value;
-    if (/^\d*$/.test(inputValue)) {
-      handleChange(inputValue);
+    let inputValue = e.target.value;
+    let unformattedValue = unformatNominal(inputValue);
+
+    if (/^\d*$/.test(unformattedValue)) {
+      if (value === '0' && unformattedValue.length > 1) {
+        unformattedValue = unformattedValue.replace(/^0+/, '');
+      }
+      handleChange(unformattedValue);
     }
   };
 

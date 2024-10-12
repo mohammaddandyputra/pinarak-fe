@@ -21,6 +21,7 @@ const ModalConfirmDelete = ({
 }: ModalConfirmDeleteProps) => {
   return (
     <Modal
+      aria-label='Modal confirm delete'
       isOpen={isOpen}
       isDismissable={false}
       isKeyboardDismissDisabled

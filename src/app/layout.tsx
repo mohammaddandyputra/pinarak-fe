@@ -9,7 +9,6 @@ import {
   ToastProvider,
   NextAuthProvider,
 } from '../providers';
-import { useSession } from 'next-auth/react';
 
 const inter = Inter({ subsets: ['latin'] });
 

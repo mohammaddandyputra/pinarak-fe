@@ -2,17 +2,17 @@ import { Card, CardBody, CardHeader, Divider } from '@nextui-org/react';
 import CardContentShipmentType from './CardContentShipmentType';
 import { ErrorValidation } from '@/components/atoms';
 
-interface CardShipmentTypeProps {
+interface CardTransactionDetailProps {
   data: Record<string, any>;
   validation: any;
   handleClick: (value: string) => void;
 }
 
-const CardShipmentType = ({
+const CardTransactionDetail = ({
   data,
   validation,
   handleClick,
-}: CardShipmentTypeProps) => {
+}: CardTransactionDetailProps) => {
   return (
     <Card>
       <CardHeader className='gap-2'>
@@ -56,4 +56,4 @@ const CardShipmentType = ({
   );
 };
 
-export default CardShipmentType;
+export default CardTransactionDetail;

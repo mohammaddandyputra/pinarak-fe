@@ -10,6 +10,7 @@ interface ItemsProps {
 
 interface SenderSelectProps {
   placeholder: string;
+  value: string | undefined;
   selectedValue: any | null;
   handleInputValue?: (value: string) => void;
   handleChangeValue?: (value: any) => void;
@@ -18,6 +19,7 @@ interface SenderSelectProps {
 
 const SenderSelect = ({
   placeholder,
+  value,
   selectedValue,
   handleInputValue,
   handleChangeValue,
@@ -55,9 +57,9 @@ const SenderSelect = ({
   useEffect(() => {
     if (senderListData?.data?.data?.length) {
       const mappingItems: ItemsProps[] = senderListData.data.data.map(
-        (dataSender: any) => ({
-          label: dataSender?.nama,
-          value: dataSender,
+        (data: any) => ({
+          label: data?.nama,
+          value: data,
         })
       );
       setItems(mappingItems);
@@ -92,12 +94,14 @@ const SenderSelect = ({
   return (
     <Autocomplete
       aria-label='Sender selection'
+      allowsCustomValue={true}
       items={items}
       placeholder={placeholder}
       defaultSelectedKey={
         selectedValue ? selectedValue.id.toString() : undefined
       }
       selectedKey={selectedValue ? selectedValue.id.toString() : undefined}
+      value={value}
       onSelectionChange={handleSelectionChange}
       onInputChange={handleInputChange}
     >

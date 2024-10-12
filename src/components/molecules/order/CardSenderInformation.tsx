@@ -6,7 +6,7 @@ import {
   Textarea,
   Checkbox,
 } from '@nextui-org/react';
-import { FormLabel, RecipientSelect } from '../common';
+import { FormLabel, SenderSelect } from '../common';
 import { LocationSelect, TextInputPhoneNumber } from '@/components/atoms';
 import _ from 'lodash';
 
@@ -37,7 +37,7 @@ const CardSenderInformation = ({
             <FormLabel
               label='Nama*'
               form={
-                <RecipientSelect
+                <SenderSelect
                   selectedValue={
                     data?.pengirim_id
                       ? {

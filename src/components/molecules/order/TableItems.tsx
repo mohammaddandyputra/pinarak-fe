@@ -44,7 +44,7 @@ const TableItems = ({
         </TableColumn>
         <TableColumn>
           {' '}
-          <p className='text-sm text-black'>Berat Volume</p>
+          <p className='text-sm text-black'>Berat Volume (gr)</p>
         </TableColumn>
       </TableHeader>
       <TableBody emptyContent={'No rows to display.'}>

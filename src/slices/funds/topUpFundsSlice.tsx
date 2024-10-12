@@ -1,28 +1,23 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-interface OrderShipmentState {
-  objData: any[];
-  objFilter: Record<string, any>;
+interface TopUpFundsState {
+  objData: Record<string, any>;
   objPayload: Record<string, any>;
   validationErrors: Record<string, any>;
 }
 
-const initialState: OrderShipmentState = {
+const initialState: TopUpFundsState = {
   objData: [],
-  objFilter: {},
   objPayload: {},
   validationErrors: {},
 };
 
-export const orderShipmentSlice = createSlice({
-  name: 'orderShipment',
+export const topUpFundsSlice = createSlice({
+  name: 'topUpFunds',
   initialState,
   reducers: {
     setObjData: (state, action: PayloadAction<any[]>) => {
       state.objData = action.payload;
-    },
-    setObjFilter: (state, action: PayloadAction<Record<string, any>>) => {
-      state.objFilter = action.payload;
     },
     setObjPayload: (state, action: PayloadAction<Record<string, any>>) => {
       state.objPayload = action.payload;
@@ -36,9 +31,6 @@ export const orderShipmentSlice = createSlice({
     resetObjData: (state) => {
       state.objData = [];
     },
-    resetObjFilter: (state) => {
-      state.objFilter = {};
-    },
     resetObjPayload: (state) => {
       state.objPayload = {};
     },
@@ -50,13 +42,11 @@ export const orderShipmentSlice = createSlice({
 
 export const {
   setObjData,
-  setObjFilter,
   setObjPayload,
   setValidationErrors,
   resetObjData,
-  resetObjFilter,
   resetObjPayload,
   resetValidationErrors,
-} = orderShipmentSlice.actions;
+} = topUpFundsSlice.actions;
 
-export default orderShipmentSlice.reducer;
+export default topUpFundsSlice.reducer;

@@ -6,7 +6,7 @@ const calculateVolumetricWeight = (
 ) => {
   let divisor = 1;
 
-  if (jenis_pengiriman === 'express' || jenis_pengiriman === 'reguler') {
+  if (['express', 'reguler', 'lite'].includes(jenis_pengiriman)) {
     divisor = 6;
   } else if (jenis_pengiriman === 'trucking') {
     divisor = 3;
@@ -14,7 +14,13 @@ const calculateVolumetricWeight = (
     divisor = 0;
   }
 
-  return (panjang * lebar * tinggi) / divisor;
+  const volumetricWeight = (panjang * lebar * tinggi) / divisor;
+
+  if (!isFinite(volumetricWeight) || volumetricWeight <= 0) {
+    return 0;
+  }
+
+  return volumetricWeight;
 };
 
 export default calculateVolumetricWeight;

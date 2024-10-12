@@ -57,9 +57,9 @@ const RecipientSelect = ({
   useEffect(() => {
     if (recipientListData?.data?.data?.length) {
       const mappingItems: ItemsProps[] = recipientListData.data.data.map(
-        (dataRecipient: any) => ({
-          label: dataRecipient?.nama,
-          value: dataRecipient,
+        (data: any) => ({
+          label: data?.nama,
+          value: data,
         })
       );
       setItems(mappingItems);
